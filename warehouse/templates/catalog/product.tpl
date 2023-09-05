@@ -156,92 +156,145 @@
                         {/if}
                     </div>
                 {/block}
+                <div class="product_information_parent row">
+                    <div class="product-information col-md-12 col-lg-7">
+                        <div class="product-actions js-product-actions">
+                            {block name='product_buy'}
+                                <form action="{$urls.pages.cart}" method="post" id="add-to-cart-or-refresh">
 
-                <div class="product-information">
-                    {block name='product_description_short'}
-                        <div id="product-description-short-{$product.id}"
-                              class="rte-content product-description">{$product.description_short nofilter}</div>
-                    {/block}
-
-                    {if $product.is_customizable && count($product.customizations.fields)}
-                        {block name='product_customization'}
-                            {include file="catalog/_partials/product-customization.tpl" customizations=$product.customizations}
-                        {/block}
-                    {/if}
-
-                    <div class="product-actions js-product-actions">
-                        {block name='product_buy'}
-                            <form action="{$urls.pages.cart}" method="post" id="add-to-cart-or-refresh">
-                                <input type="hidden" name="token" value="{$static_token}">
-                                <input type="hidden" name="id_product" value="{$product.id}"
-                                       id="product_page_product_id">
-                                <input type="hidden" name="id_customization" value="{$product.id_customization}" id="product_customization_id" class="js-product-customization-id">
-
-                                {block name='product_variants'}
-                                    {hook h='displayProductVariants' product=$product}
-                                    {include file='catalog/_partials/product-variants.tpl'}
-                                {/block}
-
-                                {* {if $product.is_customizable && count($product.customizations.fields)}
-                                    {block name='product_customization'}
-                                        {include file="catalog/_partials/product-customization.tpl" customizations=$product.customizations}
-                                    {/block}
-                                {/if} *}
-
-                                {block name='product_pack'}
-                                    {if $packItems}
-                                        <section class="product-pack">
-                                            <p class="h4">{l s='This pack contains' d='Shop.Theme.Catalog'}</p>
-                                            {foreach from=$packItems item="product_pack"}
-                                                {block name='product_miniature'}
-                                                    {include file='catalog/_partials/miniatures/pack-product.tpl' product=$product_pack showPackProductsPrice=$product.show_price}
-                                                {/block}
-                                            {/foreach}
-                                        </section>
+                                    {if $iqitTheme.pp_price_position == 'above-button'}
+                                        <div class="product_p_price_container">
+                                        {block name='product_prices'}
+                                            {include file='catalog/_partials/product-prices.tpl'}
+                                        {/block}
+                                        </div>
                                     {/if}
-                                {/block}
 
-                                {if $iqitTheme.pp_price_position == 'above-button'}
-                                    <div class="product_p_price_container">
-                                    {block name='product_prices'}
-                                        {include file='catalog/_partials/product-prices.tpl'}
+                                    <input type="hidden" name="token" value="{$static_token}">
+                                    <input type="hidden" name="id_product" value="{$product.id}"
+                                           id="product_page_product_id">
+                                    <input type="hidden" name="id_customization" value="{$product.id_customization}" id="product_customization_id" class="js-product-customization-id">
+                                    
+                                    {block name='product_variants'}
+                                        {hook h='displayProductVariants' product=$product}
+                                        {include file='catalog/_partials/product-variants.tpl'}
                                     {/block}
-                                    </div>
-                                {/if}
 
-                                {block name='product_add_to_cart'}
-                                    {include file='catalog/_partials/product-add-to-cart.tpl'}
+                                    {* {if $product.is_customizable && count($product.customizations.fields)}
+                                        {block name='product_customization'}
+                                            {include file="catalog/_partials/product-customization.tpl" customizations=$product.customizations}
+                                        {/block}
+                                    {/if} *}
+
+                                    {block name='product_pack'}
+                                        {if $packItems}
+                                            <section class="product-pack">
+                                                <p class="h4">{l s='This pack contains' d='Shop.Theme.Catalog'}</p>
+                                                {foreach from=$packItems item="product_pack"}
+                                                    {block name='product_miniature'}
+                                                        {include file='catalog/_partials/miniatures/pack-product.tpl' product=$product_pack showPackProductsPrice=$product.show_price}
+                                                    {/block}
+                                                {/foreach}
+                                            </section>
+                                        {/if}
+                                    {/block}
+
+                                    {block name='product_add_to_cart'}
+                                        {include file='catalog/_partials/product-add-to-cart.tpl'}
+                                    {/block}
+
+                                    {block name='product_discounts'}
+                                        {include file='catalog/_partials/product-discounts.tpl'}
+                                    {/block}
+
+                                    {block name='product_refresh'}{/block}
+                                </form>
+                                {block name='product_additional_info'}
+                                    {include file='catalog/_partials/product-additional-info.tpl'}
                                 {/block}
-
-                                {block name='product_discounts'}
-                                    {include file='catalog/_partials/product-discounts.tpl'}
-                                {/block}
-
-                                {block name='product_refresh'}{/block}
-                            </form>
-                            {block name='product_additional_info'}
-                                {include file='catalog/_partials/product-additional-info.tpl'}
                             {/block}
-                        {/block}
 
-                        {block name='hook_display_reassurance'}
-                            {hook h='displayReassurance'}
-                        {/block}
+                            {block name='hook_display_reassurance'}
+                                {hook h='displayReassurance'}
+                            {/block}
 
-                        {if $iqitTheme.pp_tabs_placement == 'rightcolumn'}
-                            {if $iqitTheme.pp_tabs== 'tabh' || $iqitTheme.pp_tabs== 'tabha'}
-                                {include file='catalog/_partials/_product_partials/product-tabs-h.tpl'}
-                            {elseif $iqitTheme.pp_tabs== 'section'}
-                                {include file='catalog/_partials/_product_partials/product-tabs-sections.tpl'}
-                            {elseif $iqitTheme.pp_tabs== 'accordion'}
-                                {include file='catalog/_partials/_product_partials/product-tabs-accordion.tpl'}
+                            {if $iqitTheme.pp_tabs_placement == 'rightcolumn'}
+                                {if $iqitTheme.pp_tabs== 'tabh' || $iqitTheme.pp_tabs== 'tabha'}
+                                    {include file='catalog/_partials/_product_partials/product-tabs-h.tpl'}
+                                {elseif $iqitTheme.pp_tabs== 'section'}
+                                    {include file='catalog/_partials/_product_partials/product-tabs-sections.tpl'}
+                                {elseif $iqitTheme.pp_tabs== 'accordion'}
+                                    {include file='catalog/_partials/_product_partials/product-tabs-accordion.tpl'}
+                                {/if}
                             {/if}
-                        {/if}
 
+                        </div>
                     </div>
+                    <div class="col-md-12 col-lg-5">
+                        <div class="col_descript_inner_data">
+                            <p class="single_product_production_text">Vandaag besteld morgen in productie</p>
+                            <div class="d-flex justify-content-between">
+                                <p>Onze prijs</p>
+                                {block name='product_prices'}
+                                    {include file='catalog/_partials/product-prices.tpl'}
+                                {/block}
+                            </div>
+                            <div class="single_product_sidebar_add_to_cart">
+                                <div class="d-flex justify-content-between mt-3">
+                                    <span>Aantal</span>
+                                    <input type="number" name="sidebar_add_to_cart_quanity" id="sidebar_add_to_cart_quanity" value="1">
+                                </div>
+								
+								{if $product.is_customizable && count($product.customizations.fields)}
+									{block name='product_customization'}
+										{include file="catalog/_partials/product-customization.tpl" customizations=$product.customizations}
+									{/block}
+								{/if}
+								
+                                <a href="javascript:void(0)" id="single_product_add_to_cart_btn"><i class="fa fa-cart-plus" aria-hidden="true"></i> In winkelwagen</a>
+                                
+                            </div>
+                            <hr>
+                            <div class="single_product_overview_secction">
+                                    <h3>Bestel overzicht</h3>
+                                    <div class="product_text_price_new">
+                                        <p>{block name='page_title'}{$product.name}{/block}</p>
+                                    </div>
+                                    <p id="product_weight">
+										<span class="first-word">
+											<font style="vertical-align: inherit;">
+												<font style="vertical-align: inherit;">Breedte: </font>
+											</font>
+										</span>
+										<font style="vertical-align: inherit;" class="weight" id="product_width_val"></font>
+									</p>
+									<p id="product_height">
+										<span class="first-word">
+											<font style="vertical-align: inherit;">
+												<font style="vertical-align: inherit;">Hoogte: </font>
+											</font>
+										</span>
+										<font style="vertical-align: inherit;" class="height" id="product_height_val"></font>
+									</p>
+                                    {* <p id="product_height_and_width">
+                                        <span class="first-word">
+                                            <font style="vertical-align: inherit;">
+                                                <font style="vertical-align: inherit;">Maat: </font>
+                                            </font>
+                                        </span>
+                                        <font style="vertical-align: inherit;" class="height_and_width">30x30</font>
+                                    </p> *}
+                            </div>
+                            <hr>
+                            <div>
+                                {block name='product_description_short'}
+                                    {$product.description_short nofilter}
+                                {/block}
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
-                </div>
-            </div>
 
             {if $iqitTheme.pp_sidebar}
             <div class="col-md-{$iqitTheme.pp_sidebar} sidebar product-sidebar">
@@ -276,7 +329,9 @@
 
         </div>
 
-            {hook h='displayAboveProductsTabs'}
+			</div>
+		<div class="col-md-12 col-product-tabs-info">
+		{hook h='displayAboveProductsTabs'}
 
         {if $iqitTheme.pp_tabs_placement == 'footer'}
             {if $iqitTheme.pp_tabs== 'tabh' || $iqitTheme.pp_tabs== 'tabha'}
@@ -357,6 +412,5 @@
                 {/block}
             </footer>
         {/block}
-
     </section>
 {/block}

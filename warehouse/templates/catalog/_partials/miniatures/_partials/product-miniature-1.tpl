@@ -55,7 +55,14 @@
 
     {block name='product_price_and_shipping'}
         {if $product.show_price}
-            <div class="product-price-and-shipping">
+
+            {foreach $product.features as $feature}
+                {if $feature.name == 'Breedte lamellen'}
+                    {assign var="price_based_on_size" value=true}
+                {/if}
+            {/foreach}
+
+            <div class="product-price-and-shipping {if $price_based_on_size} price_based_on_size  {/if}">
                 {hook h='displayProductPriceBlock' product=$product type="before_price"}
                 <a href="{$product.url}"> <span  class="product-price" content="{$product.price_amount}" aria-label="{l s='Price' d='Shop.Theme.Catalog'}">
                         {capture name='custom_price'}{hook h='displayProductPriceBlock' product=$product type='custom_price' hook_origin='products_list'}{/capture}

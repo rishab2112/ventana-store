@@ -23,10 +23,12 @@
  * International Registered Trademark & Property of PrestaShop SA
  *}
 
-{if !$configuration.is_catalog}
+
     <div class="product-customization js-product-customization">
+		<!--
         <p class="h4">{l s='Product customization' d='Shop.Theme.Catalog'}</p>
         {l s='Don\'t forget to save your customization to be able to add to cart' d='Shop.Forms.Help'}
+		-->
 
         {block name='product_customization_form'}
             <form method="post" action="{$product.url}" enctype="multipart/form-data">
@@ -35,16 +37,19 @@
                         <li class="product-customization-item">
                             <label for="field-{$field.input_name}"> {$field.label}</label>
                             {if $field.type == 'text'}
-                                <textarea placeholder="{l s='Your message here' d='Shop.Forms.Help'}"
+                                <input placeholder="{l s='Your message here' d='Shop.Forms.Help'}"
                                           id="field-{$field.input_name}"
                                           class="form-control product-message"
                                           maxlength="250" {if $field.required} required {/if}
-                                          name="{$field.input_name}">{if $field.text !== ''}{$field.text}{/if}</textarea>
-                                <div class="clearfix">{if !$field.required}
-                                        <small class="pull-left">{l s='optional' d='Shop.Forms.Help'}</small>{/if}
+                                          name="{$field.input_name}" value="{if $field.text !== ''}{$field.text}{/if}">
+                                <!--
+								<div class="clearfix">
+								{if !$field.required}
+									<small class="pull-left">{l s='optional' d='Shop.Forms.Help'}</small>
+								{/if}
                                     <small class="pull-right">{l s='250 char. max' d='Shop.Forms.Help'}</small>
-                                 
                                 </div>
+								-->
                                    {if $field.text !== ''}
                                        <div class="clearfix mt-3"> <h6 class="customization-message float-left">{l s='Your customization:' d='Shop.Theme.Catalog'}
                                             <label>{$field.text}</label>
@@ -75,7 +80,7 @@
             </form>
         {/block}
     </div>
-{/if}
+
 
 
 
